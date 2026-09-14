@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# ─── Locale: force C numeric (prevents comma-as-decimal on European locales) ─
+export LC_NUMERIC=C
+
 # ─── ANSI Helpers (Standard 16-color palette only) ───────────────────────────
 R="\033[0m"         # Reset
 B="\033[1m"         # Bold
@@ -111,8 +114,7 @@ format_duration() {
 )"
 
 # ─── Computed Values ─────────────────────────────────────────────────────────
-# Use LC_NUMERIC=C to prevent bash printf errors in locales that use commas for decimals
-PCT_FMT=$(LC_NUMERIC=C printf "%.1f" "$USED_PCT")
+PCT_FMT=$(printf "%.1f" "$USED_PCT")
 PCT_INT=${USED_PCT%.*}; PCT_INT=${PCT_INT:-0}
 
 # ─── State Indicator (No background colors) ──────────────────────────────────
@@ -195,7 +197,7 @@ TOK_FMT="${FG_GRAY}tokens ${NUM_COLOR}${IN_FMT}${FG_GRAY}▲ ${NUM_COLOR}${OUT_F
 # Quota remaining badge (with period reset countdown)
 QUOTA_FMT=""
 if [ -n "$QUOTA_FRAC" ] && [ "$QUOTA_FRAC" != "null" ]; then
-  QUOTA_INT=$(LC_NUMERIC=C awk "BEGIN {printf \"%.0f\", $QUOTA_FRAC * 100}" 2>/dev/null || echo "")
+  QUOTA_INT=$(awk "BEGIN {printf \"%.0f\", $QUOTA_FRAC * 100}" 2>/dev/null || echo "")
   if [ -n "$QUOTA_INT" ]; then
     if [ "$QUOTA_INT" -le 20 ]; then
       Q_COLOR="$FG_BRIGHT_RED"
