@@ -5,6 +5,7 @@ Personal AI configuration, customizations, prompts, and tool configurations.
 ## Contents
 
 - **[antigravity-cli/](antigravity-cli/)**: Custom statusline and configurations for Google Antigravity CLI (`agy`).
+- **[claude-code/issue-card/](claude-code/issue-card/)**: GitHub issue cards in Claude Code's `@` menu and on iTerm2 Cmd-click.
 
 ---
 
